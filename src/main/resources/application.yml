@@ -1,0 +1,4 @@
+---
+bot:
+  version: '@project.version@'
+  token: ${BOT_TOKEN:}
