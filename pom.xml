@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.pragma8123</groupId>
 	<artifactId>npc-bot</artifactId>
-	<version>0.1.1</version>
+	<version>0.2.0</version>
 	<name>npc-bot</name>
 	<description>Do everything discord bot utilizing Spring Boot and Discord4J</description>
 	<properties>
