@@ -1,23 +1,21 @@
 package com.pragma8123.npcbot.commands;
 
+import com.pragma8123.npcbot.NpcConstants;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.discordjson.json.ApplicationCommandRequest;
 import discord4j.discordjson.json.ImmutableApplicationCommandRequest;
-import discord4j.rest.util.Color;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-import java.time.Instant;
-
 @Component
 public class AboutCommand implements SlashCommand {
 
+    private final String name = "about";
+
     @Value("${bot.version:unknown}")
     private String botVersion;
-
-    private final String name = "about";
 
     @Override
     public String getName() {
@@ -35,10 +33,9 @@ public class AboutCommand implements SlashCommand {
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) {
         EmbedCreateSpec embed = EmbedCreateSpec.builder()
-                .color(Color.BLUE)
+                .color(NpcConstants.NPC_COLOR)
                 .title("About NPC Bot")
                 .addField("Version", botVersion, false)
-                .timestamp(Instant.now())
                 .build();
 
         return event
