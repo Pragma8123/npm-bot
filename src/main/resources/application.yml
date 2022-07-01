@@ -1,4 +1,7 @@
 ---
+spring:
+  main:
+    web-application-type: none
 bot:
   version: '@project.version@'
   token: ${BOT_TOKEN:}
