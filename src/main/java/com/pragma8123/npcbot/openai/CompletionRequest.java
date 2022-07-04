@@ -1,10 +1,13 @@
 package com.pragma8123.npcbot.openai;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class CompletionRequest {
 
     private String model;
     private String prompt;
-    private Number max_tokens;
+    @JsonProperty("max_tokens")
+    private Number maxTokens;
     private Number temperature;
 
     public String getModel() {
@@ -23,12 +26,12 @@ public class CompletionRequest {
         this.prompt = prompt;
     }
 
-    public Number getMax_tokens() {
-        return max_tokens;
+    public Number getMaxTokens() {
+        return maxTokens;
     }
 
-    public void setMax_tokens(Integer max_tokens) {
-        this.max_tokens = max_tokens;
+    public void setMaxTokens(Integer maxTokens) {
+        this.maxTokens = maxTokens;
     }
 
     public Number getTemperature() {

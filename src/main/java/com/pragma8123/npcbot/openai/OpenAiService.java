@@ -38,7 +38,7 @@ public class OpenAiService {
 
         body.setModel(openAiModel);
         body.setPrompt(prompt);
-        body.setMax_tokens(MAX_TOKENS);
+        body.setMaxTokens(MAX_TOKENS);
         body.setTemperature(TEMPERATURE);
 
         return this.webClient.post()
