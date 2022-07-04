@@ -1,6 +1,6 @@
 package com.pragma8123.npcbot.commands;
 
-import com.pragma8123.npcbot.NpcConstants;
+import com.pragma8123.npcbot.NpcBotConstants;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.discordjson.json.ApplicationCommandRequest;
@@ -33,7 +33,7 @@ public class AboutCommand implements SlashCommand {
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) {
         EmbedCreateSpec embed = EmbedCreateSpec.builder()
-                .color(NpcConstants.NPC_COLOR)
+                .color(NpcBotConstants.NPC_COLOR)
                 .title("About NPC Bot")
                 .addField("Version", botVersion, false)
                 .build();
