@@ -1,7 +1,10 @@
 package com.pragma8123.npcbot.openai;
 
+import lombok.Data;
+
 import java.util.List;
 
+@Data
 public class CompletionResponse {
 
     private String id;
@@ -13,44 +16,4 @@ public class CompletionResponse {
     private String model;
 
     private List<CompletionChoice> choices;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getObject() {
-        return object;
-    }
-
-    public void setObject(String object) {
-        this.object = object;
-    }
-
-    public Integer getCreated() {
-        return created;
-    }
-
-    public void setCreated(Integer created) {
-        this.created = created;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public List<CompletionChoice> getChoices() {
-        return choices;
-    }
-
-    public void setChoices(List<CompletionChoice> choices) {
-        this.choices = choices;
-    }
 }
