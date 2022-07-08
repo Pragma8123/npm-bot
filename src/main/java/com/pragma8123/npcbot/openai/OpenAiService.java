@@ -26,13 +26,15 @@ public class OpenAiService {
     @Value("${bot.openai.model}")
     private String openAiModel;
 
-    public OpenAiService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder
-                .baseUrl(API_BASE_URL)
-                .build();
+    public OpenAiService() {
+        this.webClient = WebClient.create(API_BASE_URL);
     }
 
-    public Mono<String> postCompletion(String prompt) {
+    public OpenAiService(WebClient webClient) {
+        this.webClient = webClient;
+    }
+
+    public Mono<CompletionResponse> getCompletion(String prompt) {
 
         CompletionRequest body = new CompletionRequest();
 
@@ -48,14 +50,7 @@ public class OpenAiService {
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(body)
                 .retrieve()
-                .bodyToMono(CompletionResponse.class)
-                .map(response -> {
-                    // Return first completion choice as our result
-                    return response
-                            .getChoices()
-                            .get(0)
-                            .getText();
-                });
+                .bodyToMono(CompletionResponse.class);
     }
 
 }

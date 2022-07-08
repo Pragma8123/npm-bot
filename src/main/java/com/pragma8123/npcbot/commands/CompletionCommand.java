@@ -53,18 +53,20 @@ public class CompletionCommand implements SlashCommand {
                 .get();
 
         // Get our prompt completion from the OpenAI API
-        openAiService
-                .postCompletion(prompt)
-                .map(completion -> {
+        openAiService.getCompletion(prompt)
+                .flatMap(completionResponse -> {
+
+                    // Take the first completion choice from our response
+                    String completion = completionResponse.getChoices().get(0).getText();
+
                     // Format our response and then update our reply
                     String response = MessageFormat.format("""
-                                    ***Prompt:*** {0}
-                                    {1}
-                                    """, prompt, completion);
+                            ***Prompt:*** {0}
+                            {1}
+                            """, prompt, completion);
 
-                    return event.editReply(response).subscribe();
-                })
-                .subscribe();
+                    return event.editReply(response);
+                }).subscribe();
 
         return Mono.empty();
     }
