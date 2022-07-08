@@ -1,5 +1,6 @@
 package com.pragma8123.npcbot.openai;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -8,8 +9,6 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class OpenAiService {
-
-    private static final String API_BASE_URL = "https://api.openai.com/v1";
 
     private static final Integer MAX_TOKENS = 1024;
 
@@ -26,10 +25,7 @@ public class OpenAiService {
     @Value("${bot.openai.model}")
     private String openAiModel;
 
-    public OpenAiService() {
-        this.webClient = WebClient.create(API_BASE_URL);
-    }
-
+    @Autowired
     public OpenAiService(WebClient webClient) {
         this.webClient = webClient;
     }
