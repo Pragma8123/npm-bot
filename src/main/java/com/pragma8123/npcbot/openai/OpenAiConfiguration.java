@@ -1,5 +1,6 @@
 package com.pragma8123.npcbot.openai;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -7,10 +8,21 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class OpenAiConfiguration {
 
-    private static final String API_BASE_URL = "https://api.openai.com/v1";
+    @Value("${bot.openai.api_base_url}")
+    private String openAiApiBaseUrl;
+
+    @Value("${bot.openai.org_id}")
+    private String openAiOrgId;
+
+    @Value("${bot.openai.api_key}")
+    private String openAiApiKey;
 
     @Bean
     public WebClient webClient() {
-        return WebClient.create(API_BASE_URL);
+        return WebClient.builder()
+                .baseUrl(openAiApiBaseUrl)
+                .defaultHeader("Authorization", "Bearer " + openAiApiKey)
+                .defaultHeader("OpenAI-Organization", openAiOrgId)
+                .build();
     }
 }

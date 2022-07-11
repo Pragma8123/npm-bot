@@ -6,6 +6,8 @@ bot:
   version: '@project.version@'
   token: ${BOT_TOKEN:}
   openai:
+    api_base_url: "https://api.openai.com/v1"
     org_id: ${OPENAI_ORG_ID:}
     api_key: ${OPENAI_API_KEY:}
-    model: ${OPENAI_MODEL:}
+    completion_model: "text-davinci-002"
+    edit_model: "text-davinci-edit-001"

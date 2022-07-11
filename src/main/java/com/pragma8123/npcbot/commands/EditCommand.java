@@ -17,61 +17,71 @@ import reactor.core.publisher.Mono;
 import java.text.MessageFormat;
 
 @Component
-public class CompletionCommand implements SlashCommand {
+public class EditCommand implements SlashCommand {
 
-    private final Logger LOG = LoggerFactory.getLogger(CompletionCommand.class);
+    private final Logger LOG = LoggerFactory.getLogger(EditCommand.class);
 
-    private final String name = "completion";
+    private final String name = "edit";
 
     private final OpenAiService openAiService;
 
     @Autowired
-    public CompletionCommand(OpenAiService openAiService) {
+    public EditCommand(OpenAiService openAiService) {
         this.openAiService = openAiService;
     }
 
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
     public ImmutableApplicationCommandRequest getApplicationCommandRequest() {
         return ApplicationCommandRequest.builder()
                 .name(name)
-                .description("Give NPC a prompt to complete")
+                .description("Edit your text based on provided instructions")
                 .addOption(ApplicationCommandOptionData.builder()
-                        .name("prompt")
-                        .description("The prompt to be completed")
+                        .name("input")
+                        .description("Your text to be edited")
+                        .type(ApplicationCommandOption.Type.STRING.getValue())
+                        .required(true)
+                        .build())
+                .addOption(ApplicationCommandOptionData.builder()
+                        .name("instructions")
+                        .description("Instructions to edit prompt with")
                         .type(ApplicationCommandOption.Type.STRING.getValue())
                         .required(true)
                         .build())
                 .build();
     }
 
-    @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) {
 
-        // Get our prompt from the user
-        String prompt = event.getOption("prompt")
+        // Get our input from the user
+        String input = event.getOption("input")
+                .flatMap(ApplicationCommandInteractionOption::getValue)
+                .map(ApplicationCommandInteractionOptionValue::asString)
+                .orElse("");
+
+        // Get our edit instructions from the user
+        String instructions = event.getOption("instructions")
                 .flatMap(ApplicationCommandInteractionOption::getValue)
                 .map(ApplicationCommandInteractionOptionValue::asString)
                 .orElse("");
 
         return event
                 .deferReply()
-                .then(openAiService.getCompletion(prompt))
-                .map(completionResponse -> {
-                    String completion = completionResponse.getChoices().get(0).getText();
+                .then(openAiService.getEdit(input, instructions))
+                .map(editResponse -> {
+                    String editedText = editResponse.getChoices().get(0).getText();
                     return MessageFormat.format("""
-                            **Prompt:** {0}
-                            {1}
-                            """, prompt, completion);
+                            **Original:** {0}
+                            **Instructions:** {1}
+                            **Edited Text:** {2}
+                            """, input, instructions, editedText);
                 })
                 .flatMap(event::editReply)
                 .onErrorResume(error -> {
                     LOG.error(error.toString());
-                    return event.editReply("There was an error completing your prompt!");
+                    return event.editReply("There was an error editing your text!");
                 })
                 .then();
     }

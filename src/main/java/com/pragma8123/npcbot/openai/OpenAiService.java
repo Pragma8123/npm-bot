@@ -16,14 +16,11 @@ public class OpenAiService {
 
     private final WebClient webClient;
 
-    @Value("${bot.openai.org_id}")
-    private String openAiOrgId;
+    @Value("${bot.openai.completion_model}")
+    private String openAiCompletionModel;
 
-    @Value("${bot.openai.api_key}")
-    private String openAiApiKey;
-
-    @Value("${bot.openai.model}")
-    private String openAiModel;
+    @Value("${bot.openai.edit_model}")
+    private String openAiEditModel;
 
     @Autowired
     public OpenAiService(WebClient webClient) {
@@ -34,19 +31,32 @@ public class OpenAiService {
 
         CompletionRequest body = new CompletionRequest();
 
-        body.setModel(openAiModel);
+        body.setModel(openAiCompletionModel);
         body.setPrompt(prompt);
         body.setMaxTokens(MAX_TOKENS);
         body.setTemperature(TEMPERATURE);
 
-        return this.webClient.post()
+        return webClient.post()
                 .uri("/completions")
-                .header("Authorization", "Bearer " + openAiApiKey)
-                .header("OpenAI-Organization", openAiOrgId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(body)
                 .retrieve()
                 .bodyToMono(CompletionResponse.class);
     }
 
+    public Mono<EditResponse> getEdit(String input, String instructions) {
+
+        EditRequest body = new EditRequest();
+
+        body.setModel(openAiEditModel);
+        body.setInput(input);
+        body.setInstruction(instructions);
+
+        return webClient.post()
+                .uri("/edits")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(body)
+                .retrieve()
+                .bodyToMono(EditResponse.class);
+    }
 }
