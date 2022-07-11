@@ -30,10 +30,12 @@ public class EditCommand implements SlashCommand {
         this.openAiService = openAiService;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public ImmutableApplicationCommandRequest getApplicationCommandRequest() {
         return ApplicationCommandRequest.builder()
                 .name(name)
@@ -53,6 +55,7 @@ public class EditCommand implements SlashCommand {
                 .build();
     }
 
+    @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) {
 
         // Get our input from the user
