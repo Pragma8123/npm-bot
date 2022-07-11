@@ -17,19 +17,21 @@ import java.util.List;
 public class GlobalCommandRegistrar implements CommandLineRunner {
     private static final Logger LOG = LoggerFactory.getLogger(CommandLineRunner.class);
 
-    @Autowired
-    private RestClient restClient;
+    private final RestClient restClient;
+
+    private final List<? extends SlashCommand> slashCommands;
 
     @Autowired
-    private List<? extends SlashCommand> commands;
+    public GlobalCommandRegistrar(RestClient restClient, List<? extends SlashCommand> slashCommands) {
+        this.restClient = restClient;
+        this.slashCommands = slashCommands;
+    }
 
     @Override
     public void run(String... args) {
 
         List<ApplicationCommandRequest> applicationCommandRequests = new ArrayList<>();
-        commands.forEach((command) -> {
-            applicationCommandRequests.add(command.getApplicationCommandRequest());
-        });
+        slashCommands.forEach(command -> applicationCommandRequests.add(command.getApplicationCommandRequest()));
 
         // Convenience variables for the sake of easier to read code below.
         final ApplicationService applicationService = restClient.getApplicationService();
