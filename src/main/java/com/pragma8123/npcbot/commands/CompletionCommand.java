@@ -8,14 +8,19 @@ import discord4j.core.object.command.ApplicationCommandOption;
 import discord4j.discordjson.json.ApplicationCommandOptionData;
 import discord4j.discordjson.json.ApplicationCommandRequest;
 import discord4j.discordjson.json.ImmutableApplicationCommandRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.text.MessageFormat;
+import java.util.Optional;
 
 @Component
 public class CompletionCommand implements SlashCommand {
+
+    private final Logger LOG = LoggerFactory.getLogger(CompletionCommand.class);
 
     private final String name = "completion";
 
@@ -43,31 +48,37 @@ public class CompletionCommand implements SlashCommand {
 
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) {
-        // Wait for a response from the OpenAI API
-        event.deferReply().subscribe();
 
-        // Get our prompt from the user. We do not need to check if this is present as it is required
+        // Get our prompt from the user
         String prompt = event.getOption("prompt")
                 .flatMap(ApplicationCommandInteractionOption::getValue)
                 .map(ApplicationCommandInteractionOptionValue::asString)
-                .get();
+                .orElse("");
 
-        // Get our prompt completion from the OpenAI API
-        openAiService.getCompletion(prompt)
-                .flatMap(completionResponse -> {
+        // Get tts option or default to false
+        Boolean tts = event.getOption("tts")
+                .flatMap(ApplicationCommandInteractionOption::getValue)
+                .map(ApplicationCommandInteractionOptionValue::asBoolean)
+                .orElse(false);
 
-                    // Take the first completion choice from our response
-                    String completion = completionResponse.getChoices().get(0).getText();
+        return event
+                .deferReply()
+                .then(openAiService.getCompletion(prompt)
+                        .flatMap(completionResponse -> {
 
-                    // Format our response and then update our reply
-                    String response = MessageFormat.format("""
-                            ***Prompt:*** {0}
-                            {1}
-                            """, prompt, completion);
+                            // We want our first completion choice from our response
+                            String completion = completionResponse.getChoices().get(0).getText();
+                            String response = MessageFormat.format("""
+                                    ***Prompt:*** {0}
+                                    {1}
+                                    """, prompt, completion);
 
-                    return event.editReply(response);
-                }).subscribe();
-
-        return Mono.empty();
+                            return event.editReply(response);
+                        })
+                        .onErrorResume(error -> {
+                            LOG.error(error.toString());
+                            return event.editReply("There was an error completing your prompt!");
+                        }))
+                .then();
     }
 }
