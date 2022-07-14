@@ -10,10 +10,6 @@ import reactor.core.publisher.Mono;
 @Service
 public class OpenAiService {
 
-    private static final Integer MAX_TOKENS = 1024;
-
-    private static final Integer TEMPERATURE = 1;
-
     private final WebClient webClient;
 
     @Value("${bot.openai.completion_model}")
@@ -22,19 +18,22 @@ public class OpenAiService {
     @Value("${bot.openai.edit_model}")
     private String openAiEditModel;
 
+    @Value("${bot.openai.temperature}")
+    private Long temperature;
+
     @Autowired
     public OpenAiService(WebClient webClient) {
         this.webClient = webClient;
     }
 
-    public Mono<CompletionResponse> getCompletion(String prompt) {
+    public Mono<CompletionResponse> getCompletion(String prompt, Long maxTokens) {
 
         CompletionRequest body = new CompletionRequest();
 
         body.setModel(openAiCompletionModel);
         body.setPrompt(prompt);
-        body.setMaxTokens(MAX_TOKENS);
-        body.setTemperature(TEMPERATURE);
+        body.setMaxTokens(maxTokens);
+        body.setTemperature(temperature);
 
         return webClient.post()
                 .uri("/completions")

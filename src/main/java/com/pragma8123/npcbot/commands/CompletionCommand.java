@@ -11,6 +11,7 @@ import discord4j.discordjson.json.ImmutableApplicationCommandRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -24,6 +25,9 @@ public class CompletionCommand implements SlashCommand {
     private final String name = "completion";
 
     private final OpenAiService openAiService;
+
+    @Value("${bot.openai.max_tokens}")
+    private Long maxTokens;
 
     @Autowired
     public CompletionCommand(OpenAiService openAiService) {
@@ -60,7 +64,7 @@ public class CompletionCommand implements SlashCommand {
 
         return event
                 .deferReply()
-                .then(openAiService.getCompletion(prompt))
+                .then(openAiService.getCompletion(prompt, maxTokens))
                 .map(completionResponse -> {
                     String completion = completionResponse.getChoices().get(0).getText();
                     return MessageFormat.format("""

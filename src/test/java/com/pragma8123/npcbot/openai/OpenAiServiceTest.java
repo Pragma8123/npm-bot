@@ -68,7 +68,7 @@ public class OpenAiServiceTest {
                 .addHeader("Content-Type", "application/json")
                 .setBody(objectMapper.writeValueAsString(mockCompletionResponse)));
 
-        Mono<CompletionResponse> completionResponseMono = openAiService.getCompletion("This is a test!");
+        Mono<CompletionResponse> completionResponseMono = openAiService.getCompletion("This is a test!", 1024L);
         StepVerifier.create(completionResponseMono)
                 .expectNextMatches(completionResponse -> completionResponse.equals(mockCompletionResponse))
                 .verifyComplete();
