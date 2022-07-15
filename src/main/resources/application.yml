@@ -11,7 +11,7 @@ bot:
     api_key: ${OPENAI_API_KEY:}
     completion_model: "text-davinci-002"
     edit_model: "text-davinci-edit-001"
-    max_tokens: 1024
+    max_tokens: 512
     temperature: 1
     chat:
       max_tokens: 12
