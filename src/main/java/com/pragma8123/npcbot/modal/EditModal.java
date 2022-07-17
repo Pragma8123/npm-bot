@@ -67,7 +67,7 @@ public class EditModal implements Modal {
                 .then(openAiService.getEdit(input, instructions))
                 .flatMap(editResponse -> event
                         .editReply(MessageFormat.format("""
-                                        **Original:**
+                                        **Input:**
                                         {0}
                                         **Instructions:**
                                         {1}
