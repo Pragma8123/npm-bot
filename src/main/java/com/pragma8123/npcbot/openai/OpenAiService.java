@@ -22,8 +22,8 @@ public class OpenAiService {
     private Long temperature;
 
     @Autowired
-    public OpenAiService(WebClient webClient) {
-        this.webClient = webClient;
+    public OpenAiService(WebClient openAiWebClient) {
+        this.webClient = openAiWebClient;
     }
 
     public Mono<CompletionResponse> getCompletion(String prompt, Long maxTokens) {
