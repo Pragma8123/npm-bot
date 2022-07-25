@@ -13,7 +13,7 @@ public class OpenAiConfigurationTest {
 
     @BeforeEach
     public void beforeEach() {
-        this.context = new ApplicationContextRunner()
+        context = new ApplicationContextRunner()
                 .withUserConfiguration(OpenAiConfiguration.class);
     }
 
