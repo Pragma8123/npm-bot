@@ -63,9 +63,7 @@ public class ImageCommand implements SlashCommand {
                 .deferReply()
                 .then(dallEService.generateImage(prompt))
                 .flatMap(dallEResponse -> event.editReply(InteractionReplyEditSpec.builder()
-                        .addFile("image.jpg", new ByteArrayInputStream(dallEResponse
-                                .getImages()
-                                .get(0)))
+                        .addFile("image.jpg", new ByteArrayInputStream(dallEResponse.getImages().get(0)))
                         .addEmbed(EmbedCreateSpec.builder()
                                 .description("`" + prompt + "`")
                                 .color(NpcBotConstants.NPC_COLOR)

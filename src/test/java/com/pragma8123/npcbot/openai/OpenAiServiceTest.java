@@ -12,8 +12,7 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 public class OpenAiServiceTest {
 
@@ -42,31 +41,19 @@ public class OpenAiServiceTest {
 
     @Test
     void ensureResponseFromGetCompletion() throws Exception {
-        CompletionChoice completionChoice = new CompletionChoice();
-        completionChoice.setText("This is a response from a test!");
-        completionChoice.setIndex(0);
-        completionChoice.setFinishReason("testing");
+        CompletionResponse mockCompletionResponse = new CompletionResponse(
+                "test-id",
+                "test-object",
+                12345L,
+                "test-model",
+                Collections.singletonList(
+                        new CompletionChoice("This is a test.", 0, "testing")),
+                new TokenUsage(0L, 0L, 0L)
+        );
 
-        List<CompletionChoice> choices = new ArrayList<>();
-        choices.add(completionChoice);
-
-        TokenUsage tokenUsage = new TokenUsage();
-        tokenUsage.setPromptTokens(0L);
-        tokenUsage.setCompletionTokens(0L);
-        tokenUsage.setTotalTokens(0L);
-
-        CompletionResponse mockCompletionResponse = new CompletionResponse();
-        mockCompletionResponse.setId("test-id");
-        mockCompletionResponse.setModel("test-model");
-        mockCompletionResponse.setObject("test-object");
-        mockCompletionResponse.setCreated(12345L);
-        mockCompletionResponse.setChoices(choices);
-        mockCompletionResponse.setUsage(tokenUsage);
-
-        ObjectMapper objectMapper = new ObjectMapper();
         mockBackEnd.enqueue(new MockResponse()
                 .addHeader("Content-Type", "application/json")
-                .setBody(objectMapper.writeValueAsString(mockCompletionResponse)));
+                .setBody(new ObjectMapper().writeValueAsString(mockCompletionResponse)));
 
         Mono<CompletionResponse> completionResponseMono = openAiService.getCompletion("This is a test!", 1024L);
         StepVerifier.create(completionResponseMono)
@@ -76,28 +63,16 @@ public class OpenAiServiceTest {
 
     @Test
     void ensureResponseFromGetEdit() throws Exception {
-        EditChoice mockEditChoice = new EditChoice();
-        mockEditChoice.setIndex(0L);
-        mockEditChoice.setText("This is a mock response.");
+        EditResponse mockEditResponse = new EditResponse(
+                "test-object",
+                12345L,
+                Collections.singletonList(new EditChoice("This is a test.", 0L)),
+                new TokenUsage(0L, 0L, 0L)
+        );
 
-        List<EditChoice> mockEditChoices = new ArrayList<>();
-        mockEditChoices.add(mockEditChoice);
-
-        TokenUsage tokenUsage = new TokenUsage();
-        tokenUsage.setPromptTokens(0L);
-        tokenUsage.setCompletionTokens(0L);
-        tokenUsage.setTotalTokens(0L);
-
-        EditResponse mockEditResponse = new EditResponse();
-        mockEditResponse.setObject("test-object");
-        mockEditResponse.setCreated(12345L);
-        mockEditResponse.setChoices(mockEditChoices);
-        mockEditResponse.setUsage(tokenUsage);
-
-        ObjectMapper objectMapper = new ObjectMapper();
         mockBackEnd.enqueue(new MockResponse()
                 .addHeader("Content-Type", "application/json")
-                .setBody(objectMapper.writeValueAsString(mockEditResponse)));
+                .setBody(new ObjectMapper().writeValueAsString(mockEditResponse)));
 
         Mono<EditResponse> editResponseMono = openAiService.getEdit("This is a test!", "Don't fail!");
         StepVerifier.create(editResponseMono)

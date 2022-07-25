@@ -27,13 +27,12 @@ public class OpenAiService {
     }
 
     public Mono<CompletionResponse> getCompletion(String prompt, Long maxTokens) {
-
-        CompletionRequest body = new CompletionRequest();
-
-        body.setModel(openAiCompletionModel);
-        body.setPrompt(prompt);
-        body.setMaxTokens(maxTokens);
-        body.setTemperature(temperature);
+        CompletionRequest body = new CompletionRequest(
+                openAiCompletionModel,
+                prompt,
+                maxTokens,
+                temperature
+        );
 
         return webClient.post()
                 .uri("/completions")
@@ -44,12 +43,11 @@ public class OpenAiService {
     }
 
     public Mono<EditResponse> getEdit(String input, String instructions) {
-
-        EditRequest body = new EditRequest();
-
-        body.setModel(openAiEditModel);
-        body.setInput(input);
-        body.setInstruction(instructions);
+        EditRequest body = new EditRequest(
+                openAiEditModel,
+                input,
+                instructions
+        );
 
         return webClient.post()
                 .uri("/edits")
