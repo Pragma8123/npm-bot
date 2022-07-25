@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class DallEResponse {
 
+    @JsonProperty("generatedImgs")
     private List<String> images;
 
     @JsonProperty("generatedImgsFormat")
