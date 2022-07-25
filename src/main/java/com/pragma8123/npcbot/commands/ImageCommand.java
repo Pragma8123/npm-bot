@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.io.ByteArrayInputStream;
+import java.util.Base64;
 
 @Component
 public class ImageCommand implements SlashCommand {
@@ -63,7 +64,9 @@ public class ImageCommand implements SlashCommand {
                 .deferReply()
                 .then(dallEService.generateImage(prompt))
                 .flatMap(dallEResponse -> event.editReply(InteractionReplyEditSpec.builder()
-                        .addFile("image.jpg", new ByteArrayInputStream(dallEResponse.getImages().get(0)))
+                        .addFile(
+                                "image.jpg",
+                                new ByteArrayInputStream(Base64.getDecoder().decode(dallEResponse.getImages().get(0))))
                         .addEmbed(EmbedCreateSpec.builder()
                                 .description("`" + prompt + "`")
                                 .color(NpcBotConstants.NPC_COLOR)
