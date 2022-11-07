@@ -3,6 +3,7 @@ package com.pragma8123.npcbot.openai;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
@@ -23,6 +24,9 @@ public class OpenAiConfiguration {
                 .baseUrl(openAiApiBaseUrl)
                 .defaultHeader("Authorization", "Bearer " + openAiApiKey)
                 .defaultHeader("OpenAI-Organization", openAiOrgId)
+                .exchangeStrategies(ExchangeStrategies.builder()
+                        .codecs(codecs -> codecs.defaultCodecs().maxInMemorySize(8_389_000))
+                        .build())
                 .build();
     }
 }
