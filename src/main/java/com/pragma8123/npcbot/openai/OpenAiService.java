@@ -56,4 +56,21 @@ public class OpenAiService {
                 .retrieve()
                 .bodyToMono(EditResponse.class);
     }
+
+    public Mono<ImageResponse> getImage(String prompt, Long count, String size, String user) {
+        ImageRequest body = new ImageRequest(
+                prompt,
+                count,
+                size,
+                "b64_json",
+                user
+        );
+
+        return webClient.post()
+                .uri("/images/generations")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(body)
+                .retrieve()
+                .bodyToMono(ImageResponse.class);
+    }
 }
