@@ -14,6 +14,8 @@ import reactor.test.StepVerifier;
 import java.io.IOException;
 import java.util.Collections;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class OpenAiServiceTest {
 
     private static MockWebServer mockBackEnd;
@@ -37,6 +39,51 @@ public class OpenAiServiceTest {
         WebClient webClient = WebClient.create(baseUrl);
 
         openAiService = new OpenAiService(webClient);
+    }
+
+    @Test
+    void ensureCompletionRequestConstructors() {
+        try {
+            new CompletionRequest();
+            new CompletionRequest(
+                    "test model",
+                    "test prompt",
+                    1,
+                    1
+            );
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    void ensureEditRequestConstructors() {
+        try {
+            new EditRequest();
+            new EditRequest(
+                    "test model",
+                    "test input",
+                    "test instruction"
+            );
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    void ensureImageRequestConstructors() {
+        try {
+            new ImageRequest();
+            new ImageRequest(
+                    "test prompt",
+                    1L,
+                    "test size",
+                    "test responseFormat",
+                    "test user"
+            );
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 
     @Test
@@ -77,6 +124,22 @@ public class OpenAiServiceTest {
         Mono<EditResponse> editResponseMono = openAiService.getEdit("This is a test!", "Don't fail!");
         StepVerifier.create(editResponseMono)
                 .expectNextMatches(editResponse -> editResponse.equals(mockEditResponse))
+                .verifyComplete();
+    }
+
+    @Test
+    void ensureResponseFromGetImage() throws Exception {
+        ImageResponse mockImageResponse = new ImageResponse(
+                12345L,
+                Collections.singletonList(new GeneratedImage("test data")));
+
+        mockBackEnd.enqueue(new MockResponse()
+                .addHeader("Content-Type", "application/json")
+                .setBody(new ObjectMapper().writeValueAsString(mockImageResponse)));
+
+        Mono<ImageResponse> imageResponseMono = openAiService.getImage("Test image", 1L, "512x512", "userid");
+        StepVerifier.create(imageResponseMono)
+                .expectNextMatches(imageResponse -> imageResponse.equals(mockImageResponse))
                 .verifyComplete();
     }
 }
