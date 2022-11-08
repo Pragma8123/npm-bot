@@ -27,7 +27,7 @@ public class HelpCommand implements SlashCommand {
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) {
         return event
-                .reply("Here is some helpful info")
+                .reply("Help yourself!")
                 .withEphemeral(true);
     }
 }
