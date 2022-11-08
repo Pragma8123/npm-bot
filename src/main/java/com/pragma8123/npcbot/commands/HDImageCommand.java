@@ -82,7 +82,7 @@ public class HDImageCommand implements SlashCommand {
         String size = event.getOption("size")
                 .flatMap(ApplicationCommandInteractionOption::getValue)
                 .map(ApplicationCommandInteractionOptionValue::asString)
-                .orElse("MEDIUM");
+                .orElse("512x512");
 
         String user = event.getInteraction().getUser().getId().asString();
 
