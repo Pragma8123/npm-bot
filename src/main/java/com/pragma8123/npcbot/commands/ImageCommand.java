@@ -14,7 +14,6 @@ import discord4j.discordjson.json.ApplicationCommandRequest;
 import discord4j.discordjson.json.ImmutableApplicationCommandRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -30,7 +29,6 @@ public class ImageCommand implements SlashCommand {
 
     private final OpenAiService openAiService;
 
-    @Autowired
     public ImageCommand(OpenAiService openAiService) {
         this.openAiService = openAiService;
     }

@@ -6,7 +6,6 @@ import discord4j.rest.RestClient;
 import discord4j.rest.service.ApplicationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +20,6 @@ public class GlobalCommandRegistrar implements CommandLineRunner {
 
     private final List<? extends SlashCommand> slashCommands;
 
-    @Autowired
     public GlobalCommandRegistrar(RestClient restClient, List<? extends SlashCommand> slashCommands) {
         this.restClient = restClient;
         this.slashCommands = slashCommands;

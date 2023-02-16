@@ -1,6 +1,5 @@
 package com.pragma8123.npcbot.openai;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,6 @@ public class OpenAiService {
     @Value("${bot.openai.temperature}")
     private Long temperature;
 
-    @Autowired
     public OpenAiService(WebClient openAiWebClient) {
         this.webClient = openAiWebClient;
     }

@@ -5,7 +5,6 @@ import discord4j.core.event.domain.interaction.ModalSubmitInteractionEvent;
 import discord4j.core.object.component.ActionRow;
 import discord4j.core.object.component.TextInput;
 import discord4j.core.spec.InteractionPresentModalSpec;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
@@ -23,7 +22,6 @@ public class CompletionModal implements Modal {
     @Value("${bot.openai.max_tokens}")
     private Long maxTokens;
 
-    @Autowired
     public CompletionModal(OpenAiService openAiService) {
         this.openAiService = openAiService;
     }

@@ -5,7 +5,6 @@ import discord4j.core.event.domain.interaction.ModalSubmitInteractionEvent;
 import discord4j.core.object.component.ActionRow;
 import discord4j.core.object.component.TextInput;
 import discord4j.core.spec.InteractionPresentModalSpec;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -22,7 +21,6 @@ public class EditModal implements Modal {
 
     private final OpenAiService openAiService;
 
-    @Autowired
     public EditModal(OpenAiService openAiService) {
         this.openAiService = openAiService;
     }
