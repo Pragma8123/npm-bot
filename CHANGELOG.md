@@ -1,3 +1,11 @@
+## [1.0.3](https://github.com/Pragma8123/npc-bot/compare/v1.0.2...v1.0.3) (2023-12-1)
+
+
+### Bug Fixes
+
+* manually update package version again ([6cc8bbe](https://github.com/Pragma8123/npc-bot/commit/6cc8bbe929fc1b5279a201dce4aebd032e26f535))
+* **semantic-release:** correct package version update script ([e2f9d5c](https://github.com/Pragma8123/npc-bot/commit/e2f9d5cd1053c8f2343691e74e1252f85e12f8af))
+
 ## [1.0.2](https://github.com/Pragma8123/npc-bot/compare/v1.0.1...v1.0.2) (2023-12-1)
 
 
