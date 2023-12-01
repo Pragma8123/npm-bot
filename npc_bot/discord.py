@@ -1,3 +1,4 @@
+import logging
 import discord
 from discord.ext import commands
 
@@ -8,6 +9,7 @@ class DiscordBot(commands.Bot):
     def __init__(self):
         intents = discord.Intents.default()
         super().__init__(command_prefix="", intents=intents)
+        self.logger = logging.getLogger('discord')
 
     async def setup_hook(self):
         await self.add_cog(AppCommands(self))
@@ -16,4 +18,4 @@ class DiscordBot(commands.Bot):
         await self.tree.sync()
 
     async def on_ready(self):
-        print(f"Logged in as {self.user}")
+        self.logger.info(f"Logged in as ${self.user}")
