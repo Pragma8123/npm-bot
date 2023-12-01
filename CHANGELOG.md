@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/Pragma8123/npc-bot/compare/v1.0.6...v1.0.7) (2023-12-1)
+
+
+### Bug Fixes
+
+* responses are no longer ephemeral and use embeds ([3596e4a](https://github.com/Pragma8123/npc-bot/commit/3596e4a7a944d9cf7addd4d0eff31101bc173908))
+
 ## [1.0.6](https://github.com/Pragma8123/npc-bot/compare/v1.0.5...v1.0.6) (2023-12-1)
 
 
