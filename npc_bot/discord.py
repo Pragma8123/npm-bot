@@ -18,4 +18,4 @@ class DiscordBot(commands.Bot):
         await self.tree.sync()
 
     async def on_ready(self):
-        self.logger.info(f"Logged in as ${self.user}")
+        self.logger.info(f"Logged in as {self.user}")
