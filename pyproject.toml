@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "npc-bot"
-version = "1.0.3"
+version = "1.0.4"
 description = "Discord bot powered by OpenAI."
 authors = ["Pragma8123 <max@machon.family>"]
 license = "MIT"

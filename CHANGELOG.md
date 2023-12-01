@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/Pragma8123/npc-bot/compare/v1.0.3...v1.0.4) (2023-12-1)
+
+
+### Bug Fixes
+
+* **actions:** hopefully correct docker action ([0695925](https://github.com/Pragma8123/npc-bot/commit/0695925c8dd5ff5d40eef571c310fb3ff8f39508))
+
 ## [1.0.3](https://github.com/Pragma8123/npc-bot/compare/v1.0.2...v1.0.3) (2023-12-1)
 
 
