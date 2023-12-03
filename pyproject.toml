@@ -7,6 +7,9 @@ license = "MIT"
 readme = "README.md"
 include = ["CHANGELOG.md"]
 
+[tool.poetry.scripts]
+npc-bot = 'npc_bot.main:main'
+
 [tool.poetry.dependencies]
 python = "^3.11"
 langchain = "^0.0.343"

@@ -1,4 +1,4 @@
-FROM python:3.11.6-slim AS python-base
+FROM python:3.11.6-slim AS build
 
 # python
 ENV PYTHONUNBUFFERED=1 \
@@ -25,9 +25,14 @@ COPY poetry.lock pyproject.toml ./
 # install runtime deps
 RUN poetry install --no-dev
 
+COPY . .
+
+# build our wheel
+RUN poetry build -f wheel
 
 # `production` image used for runtime
-FROM python-base AS production
-COPY . /app/
+FROM python:3.11.6-slim AS production
 WORKDIR /app
-CMD ["python", "-m", "npc_bot.main"]
+COPY --from=build /app/dist/*.whl .
+RUN pip install *.whl
+CMD ["npc-bot"]
