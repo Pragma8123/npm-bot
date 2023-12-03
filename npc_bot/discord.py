@@ -8,8 +8,9 @@ from npc_bot.app_commands import AppCommands
 class DiscordBot(commands.Bot):
     def __init__(self):
         intents = discord.Intents.default()
+        intents.message_content = True
         super().__init__(command_prefix="", intents=intents)
-        self.logger = logging.getLogger('discord')
+        self.logger = logging.getLogger("discord")
 
     async def setup_hook(self):
         await self.add_cog(AppCommands(self))
