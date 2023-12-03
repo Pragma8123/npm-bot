@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/Pragma8123/npc-bot/compare/v1.0.8...v1.1.0) (2023-12-3)
+
+
+### Features
+
+* **command:** add /version command ([8c1675f](https://github.com/Pragma8123/npc-bot/commit/8c1675f38d288c9452ae65e5f66243a73389e6f3))
+
 ## [1.0.8](https://github.com/Pragma8123/npc-bot/compare/v1.0.7...v1.0.8) (2023-12-3)
 
 
