@@ -1,4 +1,5 @@
 import logging
+import pkg_resources
 from discord import Embed, app_commands
 from discord.ext import commands
 import discord
@@ -38,3 +39,8 @@ class AppCommands(commands.Cog):
 
         # Edit our reply with a custom embed
         await interaction.edit_original_response(embed=embed)
+
+    @app_commands.command(name="version")
+    async def version(self, interaction: discord.Interaction):
+        version = pkg_resources.get_distribution("npc_bot").version
+        await interaction.response.send_message(content=f"Version: {version}")
