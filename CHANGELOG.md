@@ -1,3 +1,10 @@
+## [1.0.8](https://github.com/Pragma8123/npc-bot/compare/v1.0.7...v1.0.8) (2023-12-3)
+
+
+### Bug Fixes
+
+* **image:** gracefully handle image generation errors ([2ce1536](https://github.com/Pragma8123/npc-bot/commit/2ce1536557f7a0b5c037d8095e63a9df2085b943))
+
 ## [1.0.7](https://github.com/Pragma8123/npc-bot/compare/v1.0.6...v1.0.7) (2023-12-1)
 
 
