@@ -1,9 +1,10 @@
 import logging
+from openai import BadRequestError
 import pkg_resources
 from discord import Embed, app_commands
 from discord.ext import commands
 import discord
-from npc_bot.ai import generate_image
+from npc_bot.ai import BillingLimitException, RejectedRequestException, generate_image
 from npc_bot.constants import BOT_COLOR
 
 
@@ -26,12 +27,17 @@ class AppCommands(commands.Cog):
         description: str | None = None
         try:
             image_url = await generate_image(prompt)
-        except:
+        except BillingLimitException:
+            self.logger.warn("Billing hard limit reached")
+            description = "We're out of money 😔"
+        except RejectedRequestException:
             self.logger.warn(f"Prompt was rejected. Prompt: {prompt}")
             image_url = await generate_image(
                 "A comical test card; technical difficulties"
             )
             description = "Your prompt was rejected 🤔"
+        except Exception as error:
+            self.logger.error(error)
 
         title = f"`{prompt}`" if len(prompt) < 256 else f"`{prompt[0:250]}...`"
         embed = Embed(color=BOT_COLOR, title=title, description=description)
