@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/Pragma8123/npc-bot/compare/v1.1.0...v1.1.1) (2023-12-4)
+
+
+### Bug Fixes
+
+* **discord:** add missing intent ([6d8db7b](https://github.com/Pragma8123/npc-bot/commit/6d8db7b2eebc5ed6dacb7efcb92a34cb53c1d2c9))
+
 # [1.1.0](https://github.com/Pragma8123/npc-bot/compare/v1.0.8...v1.1.0) (2023-12-3)
 
 
