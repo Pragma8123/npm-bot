@@ -1,5 +1,4 @@
 import logging
-from openai import BadRequestError
 import pkg_resources
 from discord import Embed, app_commands
 from discord.ext import commands

@@ -32,7 +32,18 @@ RUN poetry build -f wheel
 
 # `production` image used for runtime
 FROM python:3.11.6-slim AS production
+
 WORKDIR /app
+
+# Copy package from build stage
 COPY --from=build /app/dist/*.whl .
+
+# Install built package
 RUN pip install *.whl
+
+# Add and run as a non-root user
+RUN groupadd -g 10001 python && useradd -u 10000 -g python python
+USER python:python
+
+# Entrypoint
 CMD ["npc-bot"]
