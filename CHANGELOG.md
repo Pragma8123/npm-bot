@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/Pragma8123/npc-bot/compare/v1.1.1...v1.1.2) (2023-12-6)
+
+
+### Bug Fixes
+
+* **discord:** ignore on_message events for now ([c133330](https://github.com/Pragma8123/npc-bot/commit/c13333050da050655a8f79a30280570a0d0c0049))
+
 ## [1.1.1](https://github.com/Pragma8123/npc-bot/compare/v1.1.0...v1.1.1) (2023-12-4)
 
 
