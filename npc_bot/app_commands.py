@@ -31,12 +31,7 @@ class AppCommands(commands.Cog):
             description = "We're out of money 😔"
         except RejectedRequestException:
             self.logger.warn(f"Prompt was rejected. Prompt: {prompt}")
-            image_url = await generate_image(
-                "A comical test card; technical difficulties"
-            )
             description = "Your prompt was rejected 🤔"
-        except Exception as error:
-            self.logger.error(error)
 
         title = f"`{prompt}`" if len(prompt) < 256 else f"`{prompt[0:250]}...`"
         embed = Embed(color=BOT_COLOR, title=title, description=description)
