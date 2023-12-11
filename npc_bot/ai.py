@@ -12,8 +12,8 @@ class BillingLimitException(Exception):
 
 
 load_dotenv()
-api_token = os.getenv("OPENAI_API_KEY", "")
-client = AsyncClient(api_key=api_token)
+api_key = os.getenv("OPENAI_API_KEY", "")
+client = AsyncClient(api_key=api_key)
 
 
 async def generate_image(prompt: str) -> str | None:
