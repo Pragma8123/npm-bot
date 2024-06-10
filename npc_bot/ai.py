@@ -1,27 +1,13 @@
 import os
-from openai import AsyncClient, BadRequestError
 from dotenv import load_dotenv
-
-
-class RejectedRequestException(Exception):
-    pass
-
-
-class BillingLimitException(Exception):
-    pass
-
+import aiohttp
 
 load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY", "")
-client = AsyncClient(api_key=api_key)
 
+SD_API_URL = os.environ["SD_API_URL"]
 
-async def generate_image(prompt: str) -> str | None:
-    try:
-        result = await client.images.generate(prompt=prompt)
-        return result.data[0].url
-    except BadRequestError as error:
-        if error.code == "billing_hard_limit_reached":
-            raise BillingLimitException
-        else:
-            raise RejectedRequestException
+async def generate_image(prompt: str, count: int) -> list[str] | None:
+    async with aiohttp.ClientSession() as session:
+        async with session.post(f"{SD_API_URL}/sdapi/v1/txt2img", json={'prompt': prompt, 'batch_size': count}) as response:
+            data = await response.json()
+            return data['images']
