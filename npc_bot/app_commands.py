@@ -36,7 +36,7 @@ class AppCommands(commands.Cog):
             for i, image in enumerate(images):
                 image_data = base64.b64decode(image)
                 image_file = BytesIO(image_data)
-                file = discord.File(image_file, filename=f"image_{i}.png")
+                file = discord.File(image_file, filename=f"image_{i}.png", spoiler=True)
                 files.append(file)
 
         content = (
