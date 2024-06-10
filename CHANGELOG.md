@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/Pragma8123/npc-bot/compare/v1.1.2...v1.2.0) (2024-06-10)
+
+
+### Features
+
+* switch to Stable Diffusion for image generation ([f19c014](https://github.com/Pragma8123/npc-bot/commit/f19c0146189acbb7326f094637f4537063038f9e))
+
 ## [1.1.2](https://github.com/Pragma8123/npc-bot/compare/v1.1.1...v1.1.2) (2023-12-6)
 
 
