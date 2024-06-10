@@ -49,4 +49,4 @@ class AppCommands(commands.Cog):
     @app_commands.command(name="version")
     async def version(self, interaction: discord.Interaction):
         version = pkg_resources.get_distribution("npc_bot").version
-        await interaction.response.send_message(content=f"Version: {version}")
+        await interaction.response.send_message(content=f"Version: {version}", ephemeral=True)
