@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/Pragma8123/npc-bot/compare/v1.3.1...v1.3.2) (2024-06-10)
+
+
+### Bug Fixes
+
+* **image:** make generated images a spoiler ([3676eb1](https://github.com/Pragma8123/npc-bot/commit/3676eb1ca4b090de66d710e213d6cd25de6488c8))
+
 ## [1.3.1](https://github.com/Pragma8123/npc-bot/compare/v1.3.0...v1.3.1) (2024-06-10)
 
 
