@@ -1,10 +1,11 @@
 import logging
 import pkg_resources
-from discord import Embed, app_commands
+import base64
+from io import BytesIO
+from discord import app_commands
 from discord.ext import commands
 import discord
-from npc_bot.ai import BillingLimitException, RejectedRequestException, generate_image
-from npc_bot.constants import BOT_COLOR
+from npc_bot.ai import generate_image
 
 
 class AppCommands(commands.Cog):
@@ -14,31 +15,31 @@ class AppCommands(commands.Cog):
 
     @app_commands.command(
         name="image",
-        description="Generate an AI image using DALL-E 3",
+        description="Generate an AI image using Stable Diffusion",
     )
-    @app_commands.describe(prompt="Prompt to generate image with")
-    async def image(self, interaction: discord.Interaction, prompt: str):
+    @app_commands.describe(prompt="Prompt to generate image with", count="Batch of images")
+    async def image(self, interaction: discord.Interaction, prompt: str, count: int = 1):
         # Defer our response while waiting on our image to generate
         await interaction.response.defer(thinking=True)
 
-        # Call OpenAI to generate the image
-        image_url: str | None = None
-        description: str | None = None
+        # Call Stable Diffusion to generate the image
+        images: list[str] | None = None
         try:
-            image_url = await generate_image(prompt)
-        except BillingLimitException:
-            self.logger.warn("Billing hard limit reached")
-            description = "We're out of money 😔"
-        except RejectedRequestException:
-            self.logger.warn(f"Prompt was rejected. Prompt: {prompt}")
-            description = "Your prompt was rejected 🤔"
+            images = await generate_image(prompt, count)
+        except Exception as e:
+            self.logger.error(e)
+            await interaction.edit_original_response(content="There was an error generating your image 🤔.")
+            return
 
-        title = f"`{prompt}`" if len(prompt) < 256 else f"`{prompt[0:250]}...`"
-        embed = Embed(color=BOT_COLOR, title=title, description=description)
-        embed.set_image(url=image_url)
+        files = []
+        if images != None:
+            for i, image in enumerate(images):
+                image_data = base64.b64decode(image)
+                image_file = BytesIO(image_data)
+                file = discord.File(image_file, filename=f"image_{i}.png")
+                files.append(file)
 
-        # Edit our reply with a custom embed
-        await interaction.edit_original_response(embed=embed)
+        await interaction.followup.send(content=f"`{prompt}`", files=files, wait=True)
 
     @app_commands.command(name="version")
     async def version(self, interaction: discord.Interaction):
