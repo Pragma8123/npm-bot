@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/Pragma8123/npc-bot/compare/v1.2.0...v1.3.0) (2024-06-10)
+
+
+### Features
+
+* **image:** add negative prompt to image command ([9e5ef32](https://github.com/Pragma8123/npc-bot/commit/9e5ef32a8ffd875cd835d385cedd8e87c72186d3))
+
 # [1.2.0](https://github.com/Pragma8123/npc-bot/compare/v1.1.2...v1.2.0) (2024-06-10)
 
 
