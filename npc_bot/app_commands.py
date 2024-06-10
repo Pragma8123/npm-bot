@@ -17,15 +17,15 @@ class AppCommands(commands.Cog):
         name="image",
         description="Generate an AI image using Stable Diffusion",
     )
-    @app_commands.describe(prompt="Prompt to generate image with", count="Batch of images")
-    async def image(self, interaction: discord.Interaction, prompt: str, count: int = 1):
+    @app_commands.describe(prompt="Prompt to generate image with", negative_prompt="Anti-prompt", count="Batch of images")
+    async def image(self, interaction: discord.Interaction, prompt: str, negative_prompt: str = "", count: int = 1):
         # Defer our response while waiting on our image to generate
         await interaction.response.defer(thinking=True)
 
         # Call Stable Diffusion to generate the image
         images: list[str] | None = None
         try:
-            images = await generate_image(prompt, count)
+            images = await generate_image(prompt, negative_prompt, count)
         except Exception as e:
             self.logger.error(e)
             await interaction.edit_original_response(content="There was an error generating your image 🤔.")
@@ -39,7 +39,12 @@ class AppCommands(commands.Cog):
                 file = discord.File(image_file, filename=f"image_{i}.png")
                 files.append(file)
 
-        await interaction.followup.send(content=f"`{prompt}`", files=files, wait=True)
+        content = (
+            f"Prompt: `{prompt}`\n"
+            f"Negative Prompt: `{negative_prompt}`\n"
+        )
+
+        await interaction.followup.send(content=content, files=files, wait=True)
 
     @app_commands.command(name="version")
     async def version(self, interaction: discord.Interaction):
