@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/Pragma8123/npc-bot/compare/v1.3.0...v1.3.1) (2024-06-10)
+
+
+### Bug Fixes
+
+* **version:** make version response ephemeral ([a9a1238](https://github.com/Pragma8123/npc-bot/commit/a9a1238e1df65363d9a2e08d19b83c5f31f06897))
+
 # [1.3.0](https://github.com/Pragma8123/npc-bot/compare/v1.2.0...v1.3.0) (2024-06-10)
 
 
