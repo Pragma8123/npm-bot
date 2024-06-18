@@ -17,8 +17,18 @@ class AppCommands(commands.Cog):
         name="image",
         description="Generate an AI image using Stable Diffusion",
     )
-    @app_commands.describe(prompt="Prompt to generate image with", negative_prompt="Anti-prompt", count="Batch of images")
-    async def image(self, interaction: discord.Interaction, prompt: str, negative_prompt: str = "", count: int = 1):
+    @app_commands.describe(
+        prompt="Prompt to generate image with",
+        negative_prompt="Anti-prompt",
+        count="Batch of images",
+    )
+    async def image(
+        self,
+        interaction: discord.Interaction,
+        prompt: str,
+        negative_prompt: str = "",
+        count: int = 1,
+    ):
         # Defer our response while waiting on our image to generate
         await interaction.response.defer(thinking=True)
 
@@ -28,7 +38,9 @@ class AppCommands(commands.Cog):
             images = await generate_image(prompt, negative_prompt, count)
         except Exception as e:
             self.logger.error(e)
-            await interaction.edit_original_response(content="There was an error generating your image 🤔.")
+            await interaction.edit_original_response(
+                content="There was an error generating your image 🤔."
+            )
             return
 
         files = []
@@ -39,14 +51,13 @@ class AppCommands(commands.Cog):
                 file = discord.File(image_file, filename=f"image_{i}.png", spoiler=True)
                 files.append(file)
 
-        content = (
-            f"Prompt: `{prompt}`\n"
-            f"Negative Prompt: `{negative_prompt}`\n"
-        )
+        content = f"Prompt: `{prompt}`\n" f"Negative Prompt: `{negative_prompt}`\n"
 
         await interaction.followup.send(content=content, files=files, wait=True)
 
     @app_commands.command(name="version")
     async def version(self, interaction: discord.Interaction):
         version = pkg_resources.get_distribution("npc_bot").version
-        await interaction.response.send_message(content=f"Version: {version}", ephemeral=True)
+        await interaction.response.send_message(
+            content=f"Version: {version}", ephemeral=True
+        )
