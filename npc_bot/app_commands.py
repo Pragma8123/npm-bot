@@ -51,7 +51,10 @@ class AppCommands(commands.Cog):
                 file = discord.File(image_file, filename=f"image_{i}.png", spoiler=True)
                 files.append(file)
 
-        content = f"Prompt: `{prompt}`\n" f"Negative Prompt: `{negative_prompt}`\n"
+        content = f"**Prompt**: `{prompt}`\n"
+
+        if negative_prompt != "":
+            content += f"**Negative Prompt**: `{negative_prompt}`\n"
 
         await interaction.followup.send(content=content, files=files, wait=True)
 
