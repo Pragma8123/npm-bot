@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/Pragma8123/npc-bot/compare/v1.3.2...v1.3.3) (2024-07-03)
+
+
+### Bug Fixes
+
+* **image:** change markdown formatting in response ([7c7e3a2](https://github.com/Pragma8123/npc-bot/commit/7c7e3a2df899db83e9318e61c1e3c594db9677f4))
+
 ## [1.3.2](https://github.com/Pragma8123/npc-bot/compare/v1.3.1...v1.3.2) (2024-06-10)
 
 
