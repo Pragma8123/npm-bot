@@ -1,5 +1,7 @@
 import os
+
 from dotenv import load_dotenv
+
 from npc_bot.discord import DiscordBot
 
 

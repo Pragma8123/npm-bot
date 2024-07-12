@@ -1,10 +1,12 @@
-import logging
-import pkg_resources
 import base64
+import logging
 from io import BytesIO
+
+import discord
+import pkg_resources
 from discord import app_commands
 from discord.ext import commands
-import discord
+
 from npc_bot.ai import generate_image
 
 
